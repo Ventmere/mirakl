@@ -1,0 +1,7 @@
+[workspace]
+members = [
+  "mirakl",
+  "mirakl_cli"
+]
+[patch.crates-io]
+mirakl = { path = "./mirakl" }
