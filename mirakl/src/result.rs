@@ -2,6 +2,9 @@ use reqwest::StatusCode;
 
 #[derive(Fail, Debug)]
 pub enum MiraklError {
+  #[fail(display = "io error: {}", _0)]
+  Io(::std::io::Error),
+
   #[fail(
     display = "request error: path = '{}', status = '{}', body = '{}'",
     path, status, body
@@ -47,5 +50,6 @@ macro_rules! impl_from {
   };
 }
 
+impl_from!(Io(::std::io::Error));
 impl_from!(Http(::reqwest::Error));
 impl_from!(Json(::serde_json::Error));

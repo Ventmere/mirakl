@@ -10,8 +10,10 @@ extern crate serde_json;
 
 #[macro_use]
 mod helpers;
+mod r#impl;
 mod types;
 
+pub use self::r#impl::*;
 pub use self::types::*;
 pub mod client;
 pub mod offer;

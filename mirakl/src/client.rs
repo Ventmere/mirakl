@@ -1,3 +1,4 @@
+use r#impl::MiraklImpl;
 use reqwest::{Client, Response};
 pub use reqwest::{Method, RequestBuilder};
 use result::{MiraklError, MiraklResult};
@@ -6,18 +7,18 @@ use serde_json;
 
 pub struct MiraklClient {
   http: Client,
-  endpoint: String,
+  endpoint: &'static str,
   token: String,
 }
 
 impl MiraklClient {
-  pub fn new(endpoint: &str, token: &str) -> Self {
-    Self::with_http_client(endpoint, token, Client::new())
+  pub fn new<I: MiraklImpl>(i: I, token: &str) -> Self {
+    Self::with_http_client(i, token, Client::new())
   }
 
-  pub fn with_http_client(endpoint: &str, token: &str, http: Client) -> Self {
+  pub fn with_http_client<I: MiraklImpl>(_i: I, token: &str, http: Client) -> Self {
     Self {
-      endpoint: endpoint.to_owned(),
+      endpoint: I::ENDPOINT,
       token: token.to_owned(),
       http,
     }

@@ -2,6 +2,7 @@ use chrono::{DateTime, Utc};
 use client::*;
 use result::MiraklResult;
 
+pub mod document;
 mod types;
 
 pub use self::types::*;
@@ -45,23 +46,9 @@ pub struct OrderAcceptLine {
   pub id: String,
 }
 
-#[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Clone, Copy, PartialEq)]
-pub enum CarrierCode {
-  CPCL,
-  ASYN,
-  PRLA,
-  UPSN,
-  LTL,
-  FEDX,
-  LCSL,
-  DHL,
-  CPAR,
-}
-
 #[derive(Debug, Clone, Serialize)]
 pub struct OrderTracking {
-  pub carrier_code: Option<CarrierCode>,
+  pub carrier_code: Option<String>,
   pub carrier_name: Option<String>,
   pub carrier_url: Option<String>,
   pub tracking_number: Option<String>,

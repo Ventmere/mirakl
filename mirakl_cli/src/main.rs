@@ -43,6 +43,15 @@ fn main() {
         (about: "Display order items and statuses")
         (@arg ORDER_ID: +required "Mirakl order id")
       )
+      (@subcommand list_order_documents =>
+        (about: "List order documents")
+        (@arg ORDER_ID: +required "Mirakl order id")
+      )
+      (@subcommand download_order_document =>
+        (about: "Download order document")
+        (@arg ORDER_DOCUMENT_ID: +required "Mirakl order document id")
+        (@arg OUT: +required "Output file name")
+      )
       (@subcommand ship =>
         (about: "ship order")
         (@arg ORDER_ID: +required "Sets the order id")
@@ -133,6 +142,36 @@ fn main() {
           })
         )
 
+        (list_order_documents =>
+          (|m| {
+            use mirakl::order::document::*;
+            let order_id = m.value_of("ORDER_ID").unwrap();
+            let client = helpers::get_client();
+            let mut params = ListOrderDocumentsParams::default();
+            params.order_ids = Some(vec![order_id.to_string()]);
+            helpers::dump_json(client.list_order_documents(
+              &params
+            ).unwrap())
+          })
+        )
+
+        (download_order_document =>
+          (|m| {
+            use mirakl::order::document::*;
+            use std::fs::File;
+            let doc_id = m.value_of("ORDER_DOCUMENT_ID").unwrap();
+            let out_name = m.value_of("OUT").unwrap();
+            let client = helpers::get_client();
+            let mut params = DownloadOrderDocumentsParams::default();
+            params.document_ids = Some(vec![doc_id.parse().unwrap()]);
+            let out = File::create(out_name).unwrap();
+            client.download_order_documents(
+              &params,
+              out
+            ).unwrap();
+          })
+        )
+
         (ship =>
           (|m| {
             use mirakl::order::*;
@@ -140,11 +179,11 @@ fn main() {
             let client = helpers::get_client();
             let carrier_code = m.value_of("carrier_code").and_then(|code| {
               match code.trim().to_lowercase().as_ref() {
-                "canada post" => Some(CarrierCode::CPCL),
-                "purolator" => Some(CarrierCode::PRLA),
-                "ups" => Some(CarrierCode::UPSN),
-                "fedex" => Some(CarrierCode::FEDX),
-                "dhl" => Some(CarrierCode::DHL),
+                "canada post" => Some("CPCL".to_string()),
+                "purolator" => Some("PRLA".to_string()),
+                "ups" => Some("UPSN".to_string()),
+                "fedex" => Some("FEDX".to_string()),
+                "dhl" => Some("DHL".to_string()),
                 _ => None,
               }
             });
