@@ -10,10 +10,24 @@ extern crate serde_json;
 
 #[macro_use]
 mod helpers;
-mod r#impl;
 mod types;
 
-pub use self::r#impl::*;
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum MiraklImpl {
+  BestbuyCa,
+  CatchComAu,
+}
+
+impl MiraklImpl {
+  pub(crate) fn get_endpoint(&self) -> &'static str {
+    match *self {
+      MiraklImpl::BestbuyCa => "https://marketplace.bestbuy.ca",
+      MiraklImpl::CatchComAu => "https://marketplace.catch.com.au",
+    }
+  }
+}
+
 pub use self::types::*;
 pub mod client;
 pub mod offer;

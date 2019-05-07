@@ -1,4 +1,4 @@
-use mirakl::{client::MiraklClient, order::*, Bestbuy, CatchComAu};
+use mirakl::{client::MiraklClient, order::*, MiraklImpl};
 use serde::Serialize;
 use serde_json;
 use std::env::var;
@@ -8,8 +8,8 @@ pub fn get_client() -> MiraklClient {
   let token = var("TOKEN").unwrap();
 
   match var("IMPL").unwrap().as_ref() {
-    "CatchComAu" => MiraklClient::new(CatchComAu, &token),
-    "Bestbuy" => MiraklClient::new(Bestbuy, &token),
+    "CatchComAu" => MiraklClient::new(MiraklImpl::CatchComAu, &token),
+    "Bestbuy" => MiraklClient::new(MiraklImpl::BestbuyCa, &token),
     v => panic!("unknown impl '{}'", v),
   }
 }

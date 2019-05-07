@@ -1,4 +1,4 @@
-use r#impl::MiraklImpl;
+use crate::MiraklImpl;
 use reqwest::{Client, Response};
 pub use reqwest::{Method, RequestBuilder};
 use result::{MiraklError, MiraklResult};
@@ -12,13 +12,13 @@ pub struct MiraklClient {
 }
 
 impl MiraklClient {
-  pub fn new<I: MiraklImpl>(i: I, token: &str) -> Self {
+  pub fn new(i: MiraklImpl, token: &str) -> Self {
     Self::with_http_client(i, token, Client::new())
   }
 
-  pub fn with_http_client<I: MiraklImpl>(_i: I, token: &str, http: Client) -> Self {
+  pub fn with_http_client(i: MiraklImpl, token: &str, http: Client) -> Self {
     Self {
-      endpoint: I::ENDPOINT,
+      endpoint: i.get_endpoint(),
       token: token.to_owned(),
       http,
     }
