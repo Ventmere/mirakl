@@ -43,6 +43,11 @@ fn main() {
         (about: "Display order items and statuses")
         (@arg ORDER_ID: +required "Mirakl order id")
       )
+      (@subcommand accept_line =>
+        (about: "Accept order line")
+        (@arg ORDER_ID: +required "Mirakl order id")
+        (@arg LINE_ID: +required "Mirakl order line id")
+      )
       (@subcommand list_order_documents =>
         (about: "List order documents")
         (@arg ORDER_ID: +required "Mirakl order id")
@@ -139,6 +144,27 @@ fn main() {
               None,
               None,
             ).unwrap().orders.pop().unwrap())
+          })
+        )
+
+        (accept_line =>
+          (|m| {
+            use mirakl::order::*;
+            let order_id = m.value_of("ORDER_ID").unwrap();
+            let line_id = m.value_of("LINE_ID").unwrap();
+            let client = helpers::get_client();
+            let accept = OrderAccept {
+              order_lines: vec![
+                OrderAcceptLine {
+                  accepted: true,
+                  id: line_id.to_string(),
+                }
+              ]
+            };
+            client.accept(
+              order_id,
+              &accept
+            ).unwrap()
           })
         )
 
