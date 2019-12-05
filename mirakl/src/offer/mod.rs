@@ -1,3 +1,5 @@
+use std::io::Read;
+
 use client::*;
 use result::MiraklResult;
 
@@ -40,6 +42,18 @@ pub trait OfferApi {
     sort: Option<ListOffersSort>,
     page: Option<Pagination>,
   ) -> MiraklResult<ListOffersResponse>;
+
+  fn import_offers<R: Read + Send + 'static>(
+    &self,
+    mode: ImportMode,
+    file_name: &str,
+    r: R,
+    mime: &str,
+  ) -> MiraklResult<ImportTracking>;
+
+  fn get_offers_import_info(&self, id: i64) -> MiraklResult<ImportInformation>;
+
+  fn get_offers_import_error_report(&self, id: i64) -> MiraklResult<Vec<u8>>;
 }
 
 impl OfferApi for MiraklClient {
@@ -61,5 +75,47 @@ impl OfferApi for MiraklClient {
       req.query(&page);
     }
     req.send()?.get_response()
+  }
+
+  fn import_offers<R: Read + Send + 'static>(
+    &self,
+    mode: ImportMode,
+    file_name: &str,
+    r: R,
+    mime: &str,
+  ) -> MiraklResult<ImportTracking> {
+    use reqwest::multipart::{Form, Part};
+
+    let mime = mime.parse()?;
+    let form = Form::new()
+      .text("import_mode", mode.as_str())
+      .part("file", {
+        Part::reader(r).file_name(file_name.to_string()).mime(mime)
+      });
+    let mut res = self
+      .request(Method::Post, "/api/offers/imports")
+      .multipart(form)
+      .send()?;
+
+    res.json().map_err(Into::into)
+  }
+
+  fn get_offers_import_info(&self, id: i64) -> MiraklResult<ImportInformation> {
+    let mut res = self
+      .request(Method::Get, &format!("/api/offers/imports/{}", id))
+      .send()?;
+
+    res.json().map_err(Into::into)
+  }
+
+  fn get_offers_import_error_report(&self, id: i64) -> MiraklResult<Vec<u8>> {
+    let mut data = vec![];
+    let mut res = self
+      .request(Method::Get, &format!("/api/offers/imports/{}", id))
+      .send()?;
+
+    res.copy_to(&mut data)?;
+
+    Ok(data)
   }
 }

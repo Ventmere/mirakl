@@ -87,3 +87,65 @@ pub struct ProductReference {
   pub reference: String,
   pub reference_type: String,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct ImportTracking {
+  pub import_id: i64,
+  pub product_import_id: Option<i64>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ImportInformation {
+  pub date_created: DateTime<Utc>,
+  pub has_error_report: bool,
+  pub import_id: i64,
+  pub lines_in_error: i64,
+  pub lines_in_pending: i64,
+  pub lines_in_success: i64,
+  pub lines_read: i64,
+  pub mode: ImportMode,
+  pub offer_deleted: i64,
+  pub offer_inserted: i64,
+  pub offer_updated: i64,
+  pub reason_status: Option<String>,
+  pub status: ImportStatus,
+  #[serde(rename = "type")]
+  pub type_: ImportType,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ImportMode {
+  Normal,
+  PartialUpdate,
+  Replace,
+}
+
+impl ImportMode {
+  pub fn as_str(&self) -> &'static str {
+    match *self {
+      ImportMode::Normal => "NORMAL",
+      ImportMode::PartialUpdate => "PARTIAL_UPDATE",
+      ImportMode::Replace => "REPLACE",
+    }
+  }
+}
+
+#[derive(Debug, Deserialize, Copy, Clone, PartialEq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ImportStatus {
+  WaitingSynchronizationProduct,
+  Waiting,
+  Running,
+  Complete,
+  Failed,
+  Queued,
+}
+
+#[derive(Debug, Deserialize, Copy, Clone, PartialEq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ImportType {
+  Auto,
+  Mirakl,
+  Amazon,
+}

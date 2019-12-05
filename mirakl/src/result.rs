@@ -23,6 +23,9 @@ pub enum MiraklError {
 
   #[fail(display = "json error: {}", _0)]
   Json(::serde_json::Error),
+
+  #[fail(display = "parse mime error: {}", _0)]
+  ParseMime(reqwest::mime::FromStrError),
 }
 
 impl MiraklError {
@@ -53,3 +56,4 @@ macro_rules! impl_from {
 impl_from!(Io(::std::io::Error));
 impl_from!(Http(::reqwest::Error));
 impl_from!(Json(::serde_json::Error));
+impl_from!(ParseMime(reqwest::mime::FromStrError));

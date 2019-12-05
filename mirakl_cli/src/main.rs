@@ -36,6 +36,8 @@ fn main() {
       (about: "Manage orders")
       (@subcommand list_orders =>
       )
+      (@subcommand list_pending =>
+      )
       (@subcommand test_orders =>
         (@arg FILE: +required "JSON file contains an order array.")
       )
@@ -79,7 +81,7 @@ fn main() {
   dispatch! {
     matches =>
       (order =>
-        (list_orders =>
+        (list =>
           (|_| {
             use mirakl::order::*;
             use chrono::{Utc, Duration};
@@ -102,6 +104,34 @@ fn main() {
               }
             };
             helpers::dump_json(orders)
+          })
+        )
+
+        (list_pending =>
+          (|_| {
+            use mirakl::order::*;
+            let client = helpers::get_client();
+            let mut params = ListOrdersParams::default();
+            params.order_state_codes = Some(vec![OrderState::WaitingAcceptance]);
+            let res = {
+              match client.list_orders(
+                &params,
+                None,
+                None,
+              ) {
+                Ok(orders) => orders,
+                Err(MiraklError::Deserialize { msg, body }) => {
+                  use std::fs::write;
+                  write("body.json", body).unwrap();
+                  panic!("request error {}, body saved.", msg);
+                },
+                Err(err) => panic!("{}", err)
+              }
+            };
+            println!("pending orders = {}", res.orders.len());
+            for order in res.orders {
+              helpers::inspect_order(order);
+            }
           })
         )
 
