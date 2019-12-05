@@ -97,15 +97,23 @@ pub struct ImportTracking {
 #[derive(Debug, Deserialize)]
 pub struct ImportInformation {
   pub date_created: DateTime<Utc>,
+  #[serde(default)]
   pub has_error_report: bool,
   pub import_id: i64,
+  #[serde(default)]
   pub lines_in_error: i64,
+  #[serde(default)]
   pub lines_in_pending: i64,
+  #[serde(default)]
   pub lines_in_success: i64,
+  #[serde(default)]
   pub lines_read: i64,
   pub mode: ImportMode,
+  #[serde(default)]
   pub offer_deleted: i64,
+  #[serde(default)]
   pub offer_inserted: i64,
+  #[serde(default)]
   pub offer_updated: i64,
   pub reason_status: Option<String>,
   pub status: ImportStatus,
