@@ -17,6 +17,7 @@ mod types;
 pub enum MiraklImpl {
   BestbuyCa,
   CatchComAu,
+  HudsonsBayUs,
 }
 
 impl MiraklImpl {
@@ -24,6 +25,7 @@ impl MiraklImpl {
     match *self {
       MiraklImpl::BestbuyCa => "https://marketplace.bestbuy.ca",
       MiraklImpl::CatchComAu => "https://marketplace.catch.com.au",
+      MiraklImpl::HudsonsBayUs => "https://hudsonsbayus-prod.mirakl.net",
     }
   }
 }
