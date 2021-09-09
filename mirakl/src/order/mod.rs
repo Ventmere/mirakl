@@ -1,6 +1,7 @@
 use chrono::{DateTime, Utc};
 use client::*;
 use result::MiraklResult;
+use reqwest::header::ContentLength;
 
 pub mod document;
 mod types;
@@ -128,6 +129,7 @@ impl OrderApi for MiraklClient {
   fn ship(&self, order_id: &str) -> MiraklResult<()> {
     self
       .request(Method::Put, &format!("/api/orders/{}/ship", order_id))
+      .header(ContentLength(0))
       .send()?
       .no_content()
   }
