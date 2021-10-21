@@ -1,6 +1,6 @@
 use chrono::{DateTime, Utc};
-use client::*;
-use result::MiraklResult;
+use crate::client::*;
+use crate::result::MiraklResult;
 
 pub mod document;
 mod types;
@@ -13,7 +13,7 @@ pub enum OrderSort {
   DateCreated,
 }
 
-use types::{Pagination, Sort};
+use crate::types::{Pagination, Sort};
 
 pub type ListOrdersSort = Sort<OrderSort>;
 
@@ -78,16 +78,16 @@ impl OrderApi for MiraklClient {
     sort: Option<ListOrdersSort>,
     page: Option<Pagination>,
   ) -> MiraklResult<ListOrdersResponse> {
-    let mut req = self.request(Method::Get, "/api/orders");
+    let mut req = self.request(Method::GET, "/api/orders");
 
     let mut params = params.clone();
 
     if let Some(order_ids) = params.order_ids.take() {
-      req.query(&[("order_ids", order_ids.join(","))]);
+      req = req.query(&[("order_ids", order_ids.join(","))]);
     }
 
     if let Some(order_state_codes) = params.order_state_codes.take() {
-      req.query(&[(
+      req = req.query(&[(
         "order_state_codes",
         order_state_codes
           .iter()
@@ -97,21 +97,21 @@ impl OrderApi for MiraklClient {
       )]);
     }
 
-    req.query(&params);
+    req = req.query(&params);
 
     if let Some(sort) = sort {
-      req.query(&sort);
+      req = req.query(&sort);
     }
 
     if let Some(page) = page {
-      req.query(&page);
+      req = req.query(&page);
     }
     req.send()?.get_response()
   }
 
   fn accept(&self, order_id: &str, accept: &OrderAccept) -> MiraklResult<()> {
     self
-      .request(Method::Put, &format!("/api/orders/{}/accept", order_id))
+      .request(Method::PUT, &format!("/api/orders/{}/accept", order_id))
       .json(accept)
       .send()?
       .no_content()
@@ -119,7 +119,7 @@ impl OrderApi for MiraklClient {
 
   fn update_tracking(&self, order_id: &str, tracking: &OrderTracking) -> MiraklResult<()> {
     self
-      .request(Method::Put, &format!("/api/orders/{}/tracking", order_id))
+      .request(Method::PUT, &format!("/api/orders/{}/tracking", order_id))
       .json(tracking)
       .send()?
       .no_content()
@@ -127,7 +127,7 @@ impl OrderApi for MiraklClient {
 
   fn ship(&self, order_id: &str) -> MiraklResult<()> {
     self
-      .request(Method::Put, &format!("/api/orders/{}/ship", order_id))
+      .request(Method::PUT, &format!("/api/orders/{}/ship", order_id))
       .json(&serde_json::Value::Null) // workaround for Error 411 (Length Required)
       .send()?
       .no_content()

@@ -1,5 +1,5 @@
-use client::*;
-use result::MiraklResult;
+use crate::client::*;
+use crate::result::MiraklResult;
 use std::io::prelude::*;
 
 mod types;
@@ -44,19 +44,19 @@ impl OrderDocumentApi for MiraklClient {
     &self,
     params: &ListOrderDocumentsParams,
   ) -> MiraklResult<ListOrderDocumentsResponse> {
-    let mut req = self.request(Method::Get, "/api/orders/documents");
+    let mut req = self.request(Method::GET, "/api/orders/documents");
 
     let mut params = params.clone();
 
     if let Some(order_ids) = params.order_ids.take() {
-      req.query(&[("order_ids", order_ids.join(","))]);
+      req = req.query(&[("order_ids", order_ids.join(","))]);
     }
 
     if let Some(shop_id) = params.shop_id.take() {
-      req.query(&[("shop_id", shop_id)]);
+      req = req.query(&[("shop_id", shop_id)]);
     }
 
-    req.query(&params);
+    req = req.query(&params);
 
     req.send()?.get_response()
   }
@@ -66,15 +66,15 @@ impl OrderDocumentApi for MiraklClient {
     params: &DownloadOrderDocumentsParams,
     mut w: W,
   ) -> MiraklResult<u64> {
-    let mut req = self.request(Method::Get, "/api/orders/documents/download");
+    let mut req = self.request(Method::GET, "/api/orders/documents/download");
     let mut params = params.clone();
 
     if let Some(order_ids) = params.order_ids.take() {
-      req.query(&[("order_ids", order_ids.join(","))]);
+      req = req.query(&[("order_ids", order_ids.join(","))]);
     }
 
     if let Some(document_ids) = params.document_ids.take() {
-      req.query(&[(
+      req = req.query(&[(
         "document_ids",
         document_ids
           .into_iter()
@@ -85,14 +85,14 @@ impl OrderDocumentApi for MiraklClient {
     }
 
     if let Some(document_codes) = params.document_codes.take() {
-      req.query(&[("document_codes", document_codes.join(","))]);
+      req = req.query(&[("document_codes", document_codes.join(","))]);
     }
 
     if let Some(shop_id) = params.shop_id.take() {
-      req.query(&[("shop_id", shop_id)]);
+      req = req.query(&[("shop_id", shop_id)]);
     }
 
-    req.query(&params);
+    req = req.query(&params);
 
     let mut res = req.send()?;
 

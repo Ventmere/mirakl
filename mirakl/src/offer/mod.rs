@@ -1,7 +1,7 @@
 use std::io::Read;
 
-use client::*;
-use result::MiraklResult;
+use crate::client::*;
+use crate::result::MiraklResult;
 
 mod types;
 
@@ -17,7 +17,7 @@ pub enum OfferSort {
   ProductTitle,
 }
 
-use types::{Pagination, Sort};
+use crate::types::{Pagination, Sort};
 
 pub type ListOffersSort = Sort<OfferSort>;
 
@@ -63,16 +63,16 @@ impl OfferApi for MiraklClient {
     sort: Option<ListOffersSort>,
     page: Option<Pagination>,
   ) -> MiraklResult<ListOffersResponse> {
-    let mut req = self.request(Method::Get, "/api/offers");
+    let mut req = self.request(Method::GET, "/api/offers");
 
-    req.query(&params);
+    req = req.query(&params);
 
     if let Some(sort) = sort {
-      req.query(&sort);
+      req = req.query(&sort);
     }
 
     if let Some(page) = page {
-      req.query(&page);
+      req = req.query(&page);
     }
     req.send()?.get_response()
   }
@@ -84,16 +84,15 @@ impl OfferApi for MiraklClient {
     r: R,
     mime: &str,
   ) -> MiraklResult<ImportTracking> {
-    use reqwest::multipart::{Form, Part};
+    use reqwest::blocking::multipart::{Form, Part};
 
-    let mime = mime.parse()?;
     let form = Form::new()
       .text("import_mode", mode.as_str())
       .part("file", {
-        Part::reader(r).file_name(file_name.to_string()).mime(mime)
+        Part::reader(r).file_name(file_name.to_string()).mime_str(mime)?
       });
-    let mut res = self
-      .request(Method::Post, "/api/offers/imports")
+    let res = self
+      .request(Method::POST, "/api/offers/imports")
       .multipart(form)
       .send()?;
 
@@ -101,8 +100,8 @@ impl OfferApi for MiraklClient {
   }
 
   fn get_offers_import_info(&self, id: i64) -> MiraklResult<ImportInformation> {
-    let mut res = self
-      .request(Method::Get, &format!("/api/offers/imports/{}", id))
+    let res = self
+      .request(Method::GET, &format!("/api/offers/imports/{}", id))
       .send()?;
 
     res.json().map_err(Into::into)
@@ -111,7 +110,7 @@ impl OfferApi for MiraklClient {
   fn get_offers_import_error_report(&self, id: i64) -> MiraklResult<Vec<u8>> {
     let mut data = vec![];
     let mut res = self
-      .request(Method::Get, &format!("/api/offers/imports/{}", id))
+      .request(Method::GET, &format!("/api/offers/imports/{}", id))
       .send()?;
 
     res.copy_to(&mut data)?;

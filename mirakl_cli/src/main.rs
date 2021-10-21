@@ -271,7 +271,7 @@ fn main() {
 
             let mut items = vec![];
             loop {
-              let mut res = client.request(Method::Get, &format!(
+              let res = client.request(Method::GET, &format!(
                  "/api/offers?max=100&offset={}", items.len()
               )).send().unwrap();
               let value: serde_json::Value = res.json().unwrap();

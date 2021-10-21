@@ -1,31 +1,26 @@
 use reqwest::StatusCode;
+use thiserror::Error;
 
-#[derive(Fail, Debug)]
+#[derive(Error, Debug)]
 pub enum MiraklError {
-  #[fail(display = "io error: {}", _0)]
-  Io(::std::io::Error),
-
-  #[fail(
-    display = "request error: path = '{}', status = '{}', body = '{}'",
-    path, status, body
-  )]
+  #[error("request error: path = '{path}', status = '{status}', body = '{body}'")]
   Request {
     path: String,
     status: StatusCode,
     body: String,
   },
 
-  #[fail(display = "deserialize body error: msg = '{}', body = '{}'", msg, body)]
+  #[error("deserialize body error: msg = '{msg}', body = '{body}'")]
   Deserialize { msg: String, body: String },
 
-  #[fail(display = "http error: {}", _0)]
-  Http(::reqwest::Error),
+  #[error("http error: {0}")]
+  Http(#[from] ::reqwest::Error),
 
-  #[fail(display = "json error: {}", _0)]
-  Json(::serde_json::Error),
+  #[error("json error: {0}")]
+  Json(#[from] serde_json::Error),
 
-  #[fail(display = "parse mime error: {}", _0)]
-  ParseMime(reqwest::mime::FromStrError),
+  #[error("io error: {0}")]
+  Io(#[from] std::io::Error),
 }
 
 impl MiraklError {
@@ -42,18 +37,3 @@ impl MiraklError {
 }
 
 pub type MiraklResult<T> = ::std::result::Result<T, MiraklError>;
-
-macro_rules! impl_from {
-  ($v:ident($t:ty)) => {
-    impl From<$t> for MiraklError {
-      fn from(e: $t) -> Self {
-        MiraklError::$v(e)
-      }
-    }
-  };
-}
-
-impl_from!(Io(::std::io::Error));
-impl_from!(Http(::reqwest::Error));
-impl_from!(Json(::serde_json::Error));
-impl_from!(ParseMime(reqwest::mime::FromStrError));

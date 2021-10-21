@@ -1,7 +1,7 @@
 use crate::MiraklImpl;
-use reqwest::{Client, Response};
-pub use reqwest::{Method, RequestBuilder};
-use result::{MiraklError, MiraklResult};
+use reqwest::blocking::{Client, Response};
+pub use reqwest::{Method, blocking::RequestBuilder};
+use crate::result::{MiraklError, MiraklResult};
 use serde::Deserialize;
 use serde_json;
 
@@ -25,33 +25,37 @@ impl MiraklClient {
   }
 
   pub fn request(&self, method: Method, path: &str) -> RequestBuilder {
-    use reqwest::{
-      header::{qitem, Accept, Authorization, CacheControl, CacheDirective},
-      mime,
-    };
-    let mut b = self
+    use reqwest::header::{self, HeaderValue};
+    let b = self
       .http
       .request(method, &format!("{}{}", self.endpoint, path));
-    b.header(Authorization(self.token.clone()))
-      .header(CacheControl(vec![CacheDirective::NoCache]))
-      .header(Accept(vec![qitem(mime::APPLICATION_JSON)]));
-    b
+    b.header(header::AUTHORIZATION, {
+      if let Ok(v) = HeaderValue::from_str(&self.token.clone()) {
+        v
+      } else {
+        HeaderValue::from_static("")
+      }
+    })
+      .header(header::CACHE_CONTROL, HeaderValue::from_static("no-cache"))
+      .header(header::ACCEPT, HeaderValue::from_static("application/json"))
   }
 }
 
 pub trait MiraklResponse {
-  fn get_response<T: for<'de> Deserialize<'de>>(&mut self) -> MiraklResult<T>;
-  fn no_content(&mut self) -> MiraklResult<()>;
+  fn get_response<T: for<'de> Deserialize<'de>>(self) -> MiraklResult<T>;
+  fn no_content(self) -> MiraklResult<()>;
 }
 
 impl MiraklResponse for Response {
-  fn get_response<T: for<'de> Deserialize<'de>>(&mut self) -> MiraklResult<T> {
+  fn get_response<T: for<'de> Deserialize<'de>>(self) -> MiraklResult<T> {
+    let status = self.status();
+    let path = self.url().to_string();
     let body = self.text()?;
 
-    if !self.status().is_success() {
+    if !status.is_success() {
       return Err(MiraklError::Request {
-        path: self.url().to_string(),
-        status: self.status(),
+        path,
+        status,
         body,
       });
     }
@@ -67,13 +71,15 @@ impl MiraklResponse for Response {
     }
   }
 
-  fn no_content(&mut self) -> MiraklResult<()> {
+  fn no_content(self) -> MiraklResult<()> {
+    let status = self.status();
+    let path = self.url().to_string();
     let body = self.text()?;
 
-    if !self.status().is_success() {
+    if status.is_success() {
       return Err(MiraklError::Request {
-        path: self.url().to_string(),
-        status: self.status(),
+        path,
+        status,
         body,
       });
     }
