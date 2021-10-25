@@ -11,6 +11,7 @@ pub enum MiraklImpl {
   BestbuyCa,
   CatchComAu,
   HudsonsBay,
+  Belk,
 }
 
 impl MiraklImpl {
@@ -19,6 +20,7 @@ impl MiraklImpl {
       MiraklImpl::BestbuyCa => "https://marketplace.bestbuy.ca",
       MiraklImpl::CatchComAu => "https://marketplace.catch.com.au",
       MiraklImpl::HudsonsBay => "https://hudsonsbayus-prod.mirakl.net",
+      MiraklImpl::Belk => "https://belkus-prod.mirakl.net",
     }
   }
 }
@@ -27,4 +29,5 @@ pub use self::types::*;
 pub mod client;
 pub mod offer;
 pub mod order;
+pub mod platform_settings;
 pub mod result;

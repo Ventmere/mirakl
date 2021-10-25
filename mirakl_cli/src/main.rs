@@ -75,6 +75,11 @@ fn main() {
         (@arg FILE: +required "File path")
       )
     )
+    (@subcommand platform_settings =>
+      (about: "Platform settings")
+      (@subcommand list_carries =>
+      )
+    )
   )
   .get_matches();
 
@@ -302,6 +307,16 @@ fn main() {
               println!("testing {} of {}...", i + 1, len);
               serde_json::from_value::<Offer>(v.clone()).unwrap();
             }
+          })
+        )
+      )
+      (platform_settings =>
+        (list_carries =>
+          (|_| {
+            use mirakl::platform_settings::PlatformSettingsApi;
+            let client = helpers::get_client();
+            let res = client.list_all_carriers().unwrap();
+            serde_json::to_writer_pretty(::std::io::stdout(), &res).unwrap();
           })
         )
       )
