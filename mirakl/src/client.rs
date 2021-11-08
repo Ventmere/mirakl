@@ -76,7 +76,7 @@ impl MiraklResponse for Response {
     let path = self.url().to_string();
     let body = self.text()?;
 
-    if status.is_success() {
+    if !status.is_success() {
       return Err(MiraklError::Request {
         path,
         status,
