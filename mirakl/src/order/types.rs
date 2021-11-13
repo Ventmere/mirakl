@@ -71,7 +71,7 @@ pub struct Address {
   pub country_iso_code: Option<String>,
   pub firstname: String,
   pub lastname: String,
-  pub phone: String,
+  pub phone: Option<String>,
   pub phone_secondary: Option<String>,
   pub state: String,
   pub street_1: String,
