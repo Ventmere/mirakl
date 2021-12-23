@@ -12,6 +12,7 @@ pub enum MiraklImpl {
   CatchComAu,
   HudsonsBay,
   Belk,
+  SnappyGiftsUs,
 }
 
 impl MiraklImpl {
@@ -21,6 +22,7 @@ impl MiraklImpl {
       MiraklImpl::CatchComAu => "https://marketplace.catch.com.au",
       MiraklImpl::HudsonsBay => "https://hudsonsbayus-prod.mirakl.net",
       MiraklImpl::Belk => "https://belkus-prod.mirakl.net",
+      MiraklImpl::SnappyGiftsUs => "https://snappygiftsus-prod.mirakl.net",
     }
   }
 }
