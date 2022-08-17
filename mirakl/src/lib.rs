@@ -13,7 +13,8 @@ pub enum MiraklImpl {
   HudsonsBay,
   Belk,
   SnappyGiftsUs,
-  BedBathAndBeyondUs
+  BedBathAndBeyondUs,
+  MacysUs,
 }
 
 impl MiraklImpl {
@@ -24,7 +25,8 @@ impl MiraklImpl {
       MiraklImpl::HudsonsBay => "https://hudsonsbayus-prod.mirakl.net",
       MiraklImpl::Belk => "https://belkus-prod.mirakl.net",
       MiraklImpl::SnappyGiftsUs => "https://snappygiftsus-prod.mirakl.net",
-      MiraklImpl::BedBathAndBeyondUs => "https://bedbathandbeyondus-prod.mirakl.net"
+      MiraklImpl::BedBathAndBeyondUs => "https://bedbathandbeyondus-prod.mirakl.net",
+      MiraklImpl::MacysUs => "https://macysus-prod.mirakl.net",
     }
   }
 }
