@@ -23,7 +23,7 @@ pub struct Offer {
   pub min_shipping_zone: Option<String>,
   pub offer_additional_fields: Vec<OfferAdditionalField>,
   pub offer_id: i64,
-  pub price: f64,
+  pub price: Option<f64>,
   pub price_additional_info: Option<Value>,
   pub product_references: Vec<ProductReference>,
   pub product_sku: String,
@@ -31,7 +31,7 @@ pub struct Offer {
   pub quantity: i64,
   pub shop_sku: String,
   pub state_code: String,
-  pub total_price: f64,
+  pub total_price: Option<f64>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
