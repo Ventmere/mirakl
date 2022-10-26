@@ -8,7 +8,7 @@ pub struct Offer {
   pub available_start_date: Option<DateTime<Utc>>,
   pub all_prices: Vec<ApplicablePricing>,
   pub allow_quote_requests: bool,
-  pub applicable_pricing: ApplicablePricing,
+  pub applicable_pricing: Option<ApplicablePricing>,
   pub category_code: String,
   pub category_label: String,
   pub channels: Vec<String>,
