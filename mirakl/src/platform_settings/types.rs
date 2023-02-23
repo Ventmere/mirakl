@@ -2,5 +2,5 @@
 pub struct Carrier {
   pub code: String,
   pub label: String,
-  pub tracking_url: String,
+  pub tracking_url: Option<String>,
 }

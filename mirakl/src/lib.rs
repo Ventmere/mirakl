@@ -15,6 +15,7 @@ pub enum MiraklImpl {
   SnappyGiftsUs,
   BedBathAndBeyondUs,
   MacysUs,
+  Worten,
 }
 
 impl MiraklImpl {
@@ -27,6 +28,7 @@ impl MiraklImpl {
       MiraklImpl::SnappyGiftsUs => "https://snappygiftsus-prod.mirakl.net",
       MiraklImpl::BedBathAndBeyondUs => "https://bedbathandbeyondus-prod.mirakl.net",
       MiraklImpl::MacysUs => "https://macysus-prod.mirakl.net",
+      MiraklImpl::Worten => "https://marketplace.worten.pt",
     }
   }
 }
