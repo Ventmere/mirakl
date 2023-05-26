@@ -73,7 +73,7 @@ pub struct Address {
   pub lastname: String,
   pub phone: Option<String>,
   pub phone_secondary: Option<String>,
-  pub state: String,
+  pub state: Option<String>,
   pub street_1: String,
   pub street_2: Option<String>,
   pub zip_code: Option<String>,

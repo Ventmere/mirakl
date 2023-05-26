@@ -86,7 +86,7 @@ fn main() {
   dispatch! {
     matches =>
       (order =>
-        (list =>
+        (list_orders =>
           (|_| {
             use mirakl::order::*;
             use chrono::{Utc, Duration};
