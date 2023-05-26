@@ -16,6 +16,7 @@ pub enum MiraklImpl {
   BedBathAndBeyondUs,
   MacysUs,
   Worten,
+  RueDuCommerce,
 }
 
 impl MiraklImpl {
@@ -29,6 +30,7 @@ impl MiraklImpl {
       MiraklImpl::BedBathAndBeyondUs => "https://bedbathandbeyondus-prod.mirakl.net",
       MiraklImpl::MacysUs => "https://macysus-prod.mirakl.net",
       MiraklImpl::Worten => "https://marketplace.worten.pt",
+      MiraklImpl::RueDuCommerce => "https://mirakl-web.groupe-rueducommerce.fr",
     }
   }
 }
