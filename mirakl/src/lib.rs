@@ -17,6 +17,7 @@ pub enum MiraklImpl {
   MacysUs,
   Worten,
   RueDuCommerce,
+  Bunnings,
 }
 
 impl MiraklImpl {
@@ -31,6 +32,7 @@ impl MiraklImpl {
       MiraklImpl::MacysUs => "https://macysus-prod.mirakl.net",
       MiraklImpl::Worten => "https://marketplace.worten.pt",
       MiraklImpl::RueDuCommerce => "https://mirakl-web.groupe-rueducommerce.fr",
+      MiraklImpl::Bunnings => "https://marketlink.bunnings.com.au/",
     }
   }
 }
