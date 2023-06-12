@@ -18,6 +18,7 @@ pub fn get_client() -> MiraklClient {
     "Worten" => MiraklClient::new(MiraklImpl::Worten, &token),
     "RueDuCommerce" => MiraklClient::new(MiraklImpl::RueDuCommerce, &token),
     "Bunnings" => MiraklClient::new(MiraklImpl::Bunnings, &token),
+    "Mathis" => MiraklClient::new(MiraklImpl::Mathis, &token),
     v => panic!("unknown impl '{}'", v),
   }
 }
@@ -29,6 +30,7 @@ pub fn dump_json<T: Serialize>(v: T) {
 pub fn inspect_order(order: Order) {
   println!("id: {}", order.order_id);
   println!("status: {:?}", order.order_state);
+  println!("address: {:?}", order.customer.shipping_address);
   println!("lines:\n");
   for line in order.order_lines {
     println!(
