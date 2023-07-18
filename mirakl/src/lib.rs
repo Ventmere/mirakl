@@ -19,6 +19,7 @@ pub enum MiraklImpl {
   RueDuCommerce,
   Bunnings,
   Mathis,
+  MediaMarktSaturn,
 }
 
 impl MiraklImpl {
@@ -35,6 +36,7 @@ impl MiraklImpl {
       MiraklImpl::RueDuCommerce => "https://mirakl-web.groupe-rueducommerce.fr",
       MiraklImpl::Bunnings => "https://marketlink.bunnings.com.au",
       MiraklImpl::Mathis => "https://mathisbrothersus-prod.mirakl.net",
+      MiraklImpl::MediaMarktSaturn => "https://mediamarktsaturn.mirakl.net",
     }
   }
 }
