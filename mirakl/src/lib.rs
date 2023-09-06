@@ -22,6 +22,7 @@ pub enum MiraklImpl {
   MediaMarktSaturn,
   GE,
   Kohlsus,
+  GACD,
 }
 
 impl MiraklImpl {
@@ -41,6 +42,7 @@ impl MiraklImpl {
       MiraklImpl::MediaMarktSaturn => "https://mediamarktsaturn.mirakl.net",
       MiraklImpl::GE => "https://generalelectricus-prod.mirakl.net/",
       MiraklImpl::Kohlsus => "https://kohlsus-prod.mirakl.net/",
+      MiraklImpl::GACD => "https://tdmp.mirakl.net/",
     }
   }
 }
