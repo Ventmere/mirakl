@@ -23,6 +23,9 @@ pub enum MiraklImpl {
   GE,
   Kohlsus,
   GACD,
+  KrogerPreprod,
+  Kroger,
+  TSC,
 }
 
 impl MiraklImpl {
@@ -43,6 +46,9 @@ impl MiraklImpl {
       MiraklImpl::GE => "https://generalelectricus-prod.mirakl.net/",
       MiraklImpl::Kohlsus => "https://kohlsus-prod.mirakl.net/",
       MiraklImpl::GACD => "https://tdmp.mirakl.net/",
+      MiraklImpl::KrogerPreprod => "https://kroger-preprod.mirakl.net/",
+      MiraklImpl::Kroger => "https://kroger-prod.mirakl.net/",
+      MiraklImpl::TSC => "https://tsc.mirakl.net/",
     }
   }
 }
