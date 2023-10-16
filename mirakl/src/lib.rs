@@ -26,7 +26,8 @@ pub enum MiraklImpl {
   KrogerPreprod,
   Kroger,
   TSC,
-  rein,
+  Rein,
+  UFA,
 }
 
 impl MiraklImpl {
@@ -50,7 +51,8 @@ impl MiraklImpl {
       MiraklImpl::KrogerPreprod => "https://kroger-preprod.mirakl.net/",
       MiraklImpl::Kroger => "https://kroger-prod.mirakl.net/",
       MiraklImpl::TSC => "https://tsc.mirakl.net/",
-      MiraklImpl::rein => "https://rein-prod.mirakl.net/",
+      MiraklImpl::Rein => "https://rein-prod.mirakl.net/",
+      MiraklImpl::UFA => "https://unitedfarmersca-prod.mirakl.net",
     }
   }
 }
