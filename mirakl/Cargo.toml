@@ -1,6 +1,6 @@
 [package]
 name = "mirakl"
-version = "0.2.5"
+version = "0.2.6"
 authors = ["Flux Xu <fluxxu@gmail.com>"]
 description = "Mirakl Marketplace API client."
 license = "MIT"

@@ -28,6 +28,7 @@ pub fn get_client() -> MiraklClient {
     "TSC" => MiraklClient::new(MiraklImpl::TSC, &token),
     "Rein" => MiraklClient::new(MiraklImpl::Rein, &token),
     "UFA" => MiraklClient::new(MiraklImpl::UFA, &token),
+    "Carrefour" => MiraklClient::new(MiraklImpl::Carrefour, &token),
     v => panic!("unknown impl '{}'", v),
   }
 }

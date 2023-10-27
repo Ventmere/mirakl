@@ -28,6 +28,7 @@ pub enum MiraklImpl {
   TSC,
   Rein,
   UFA,
+  Carrefour,
 }
 
 impl MiraklImpl {
@@ -53,6 +54,7 @@ impl MiraklImpl {
       MiraklImpl::TSC => "https://tsc.mirakl.net/",
       MiraklImpl::Rein => "https://rein-prod.mirakl.net/",
       MiraklImpl::UFA => "https://unitedfarmersca-prod.mirakl.net",
+      MiraklImpl::Carrefour => "https://carrefoures-prod.mirakl.net/",
     }
   }
 }
