@@ -29,6 +29,7 @@ pub enum MiraklImpl {
   Rein,
   UFA,
   Carrefour,
+  Boulanger,
 }
 
 impl MiraklImpl {
@@ -55,6 +56,7 @@ impl MiraklImpl {
       MiraklImpl::Rein => "https://rein-prod.mirakl.net/",
       MiraklImpl::UFA => "https://unitedfarmersca-prod.mirakl.net",
       MiraklImpl::Carrefour => "https://carrefoures-prod.mirakl.net/",
+      MiraklImpl::Boulanger => "https://merchant.boulanger.com/",
     }
   }
 }
