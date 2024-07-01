@@ -38,7 +38,7 @@ pub struct Offer {
 pub struct Discount {
   pub start_date: Option<DateTime<Utc>>,
   pub end_date: Option<DateTime<Utc>>,
-  pub discount_price: f64,
+  pub discount_price: Option<f64>,
   pub origin_price: f64,
   pub ranges: Vec<Range>,
 }
