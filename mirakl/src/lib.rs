@@ -31,6 +31,8 @@ pub enum MiraklImpl {
   Carrefour,
   Boulanger,
   PCComponentes,
+  Adeo,
+  JBGroup,
 }
 
 impl MiraklImpl {
@@ -59,6 +61,8 @@ impl MiraklImpl {
       MiraklImpl::Carrefour => "https://carrefoures-prod.mirakl.net/",
       MiraklImpl::Boulanger => "https://merchant.boulanger.com/",
       MiraklImpl::PCComponentes => "https://pccomponentes-prod.mirakl.net/",
+      MiraklImpl::Adeo => "https://adeo-marketplace.mirakl.net",
+      MiraklImpl::JBGroup => "https://marketplace-jbgroup.mirakl.net/",
     }
   }
 }
