@@ -33,6 +33,7 @@ pub enum MiraklImpl {
   PCComponentes,
   Adeo,
   JBGroup,
+  BigBang,
 }
 
 impl MiraklImpl {
@@ -50,19 +51,20 @@ impl MiraklImpl {
       MiraklImpl::Bunnings => "https://marketlink.bunnings.com.au",
       MiraklImpl::Mathis => "https://mathisbrothersus-prod.mirakl.net",
       MiraklImpl::MediaMarktSaturn => "https://mediamarktsaturn.mirakl.net",
-      MiraklImpl::GE => "https://generalelectricus-prod.mirakl.net/",
-      MiraklImpl::Kohlsus => "https://kohlsus-prod.mirakl.net/",
-      MiraklImpl::GACD => "https://tdmp.mirakl.net/",
-      MiraklImpl::KrogerPreprod => "https://kroger-preprod.mirakl.net/",
-      MiraklImpl::Kroger => "https://kroger-prod.mirakl.net/",
-      MiraklImpl::TSC => "https://tsc.mirakl.net/",
-      MiraklImpl::Rein => "https://rein-prod.mirakl.net/",
+      MiraklImpl::GE => "https://generalelectricus-prod.mirakl.net",
+      MiraklImpl::Kohlsus => "https://kohlsus-prod.mirakl.net",
+      MiraklImpl::GACD => "https://tdmp.mirakl.net",
+      MiraklImpl::KrogerPreprod => "https://kroger-preprod.mirakl.net",
+      MiraklImpl::Kroger => "https://kroger-prod.mirakl.net",
+      MiraklImpl::TSC => "https://tsc.mirakl.net",
+      MiraklImpl::Rein => "https://rein-prod.mirakl.net",
       MiraklImpl::UFA => "https://unitedfarmersca-prod.mirakl.net",
-      MiraklImpl::Carrefour => "https://carrefoures-prod.mirakl.net/",
-      MiraklImpl::Boulanger => "https://merchant.boulanger.com/",
-      MiraklImpl::PCComponentes => "https://pccomponentes-prod.mirakl.net/",
+      MiraklImpl::Carrefour => "https://carrefoures-prod.mirakl.net",
+      MiraklImpl::Boulanger => "https://merchant.boulanger.com",
+      MiraklImpl::PCComponentes => "https://pccomponentes-prod.mirakl.net",
       MiraklImpl::Adeo => "https://adeo-marketplace.mirakl.net",
-      MiraklImpl::JBGroup => "https://marketplace-jbgroup.mirakl.net/",
+      MiraklImpl::JBGroup => "https://marketplace-jbgroup.mirakl.net",
+      MiraklImpl::BigBang => "https://bigbangmarketplace.mirakl.net",
     }
   }
 }
