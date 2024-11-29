@@ -56,7 +56,7 @@ pub struct ApplicablePricing {
   pub discount_start_date: Option<Value>,
   pub price: f64,
   pub unit_discount_price: Option<Value>,
-  pub unit_origin_price: f64,
+  pub unit_origin_price: Option<f64>,
   pub volume_prices: Vec<VolumePrice>,
 }
 
@@ -65,7 +65,7 @@ pub struct VolumePrice {
   pub price: f64,
   pub quantity_threshold: i64,
   pub unit_discount_price: Option<Value>,
-  pub unit_origin_price: f64,
+  pub unit_origin_price: Option<f64>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

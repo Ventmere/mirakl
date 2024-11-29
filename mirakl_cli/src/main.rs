@@ -305,7 +305,13 @@ fn main() {
             let len = values.len();
             for (i, v) in values.into_iter().enumerate() {
               println!("testing {} of {}...", i + 1, len);
-              serde_json::from_value::<Offer>(v.clone()).unwrap();
+              let json = serde_json::to_string_pretty(&v).unwrap();
+              if let Err(err) = serde_json::from_str::<Offer>(&json) {
+                println!("error: {:?}", err);
+                for (i, line) in json.lines().enumerate() {
+                  println!("{:03} | {}", i + 1, line);
+                }
+              }
             }
           })
         )
