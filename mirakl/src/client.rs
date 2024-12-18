@@ -41,6 +41,27 @@ impl MiraklClient {
   }
 }
 
+pub trait RequestBuilderExt {
+  fn send_status_checked(self) -> MiraklResult<Response>;
+}
+
+impl RequestBuilderExt for RequestBuilder {
+  fn send_status_checked(self) -> MiraklResult<Response> {
+    let res = self.send()?;
+    let status = res.status();
+    if !status.is_success() {
+      let path = res.url().to_string();
+      let body = res.text().unwrap_or_else(|_| "".to_string());
+      return Err(MiraklError::Request {
+        path,
+        status,
+        body,
+      });
+    }
+    Ok(res)
+  }
+}
+
 pub trait MiraklResponse {
   fn get_response<T: for<'de> Deserialize<'de>>(self) -> MiraklResult<T>;
   fn no_content(self) -> MiraklResult<()>;
