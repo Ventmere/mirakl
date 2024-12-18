@@ -96,7 +96,7 @@ impl OfferApi for MiraklClient {
       .multipart(form)
       .send()?;
 
-    res.json().map_err(Into::into)
+    res.get_response()
   }
 
   fn get_offers_import_info(&self, id: i64) -> MiraklResult<ImportInformation> {
@@ -104,14 +104,14 @@ impl OfferApi for MiraklClient {
       .request(Method::GET, &format!("/api/offers/imports/{}", id))
       .send()?;
 
-    res.json().map_err(Into::into)
+    res.get_response()
   }
 
   fn get_offers_import_error_report(&self, id: i64) -> MiraklResult<Vec<u8>> {
     let mut data = vec![];
     let mut res = self
       .request(Method::GET, &format!("/api/offers/imports/{}", id))
-      .send()?;
+      .send__status_checked()?;
 
     res.copy_to(&mut data)?;
 
