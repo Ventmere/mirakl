@@ -111,7 +111,7 @@ impl OfferApi for MiraklClient {
     let mut data = vec![];
     let mut res = self
       .request(Method::GET, &format!("/api/offers/imports/{}", id))
-      .send__status_checked()?;
+      .send_status_checked()?;
 
     res.copy_to(&mut data)?;
 

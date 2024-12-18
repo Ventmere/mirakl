@@ -42,11 +42,11 @@ impl MiraklClient {
 }
 
 pub trait RequestBuilderExt {
-  fn send__status_checked(self) -> MiraklResult<Response>;
+  fn send_status_checked(self) -> MiraklResult<Response>;
 }
 
 impl RequestBuilderExt for RequestBuilder {
-  fn send__status_checked(self) -> MiraklResult<Response> {
+  fn send_status_checked(self) -> MiraklResult<Response> {
     let res = self.send()?;
     let status = res.status();
     if !status.is_success() {
